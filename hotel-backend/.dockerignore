@@ -1,0 +1,9 @@
+.git
+.idea
+.vscode
+bin/
+tmp/
+*.db
+*.exe
+build-errors.log
+.air.toml

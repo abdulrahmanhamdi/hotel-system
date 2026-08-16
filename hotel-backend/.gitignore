@@ -1,0 +1,57 @@
+# ====================================
+# Git Ignore for Go Hotel Management API
+# ====================================
+
+# Binaries & Compiled Output
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+bin/
+build/
+dist/
+tmp/
+*.pid
+
+# Go Workspace & Vendor
+go.work
+go.work.sum
+vendor/
+
+# Environment Variables & Secrets (CRITICAL)
+.env
+.env.local
+.env.*.local
+
+# IDE & Editor Directories
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Test Coverage Reports
+*.coverprofile
+coverage.out
+coverage.html
+
+# Logs
+*.log
+logs/
+build-errors.log
+
+# Databases & SQLite Files
+*.db
+*.sqlite
+*.sqlite3
+hotel_dev.db
+
+# OS-Specific Files
+.DS_Store
+Thumbs.db
+desktop.ini

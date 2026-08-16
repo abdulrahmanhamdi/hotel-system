@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "hotel-mgmt-api-collection",
+		"name": "Hotel Management System REST API",
+		"description": "Postman Collection for testing all Hotel Management System API endpoints with JWT Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Admin Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@hotel.com\",\n  \"password\": \"Admin@123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Get Profile (Me)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "me"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Rooms",
+			"item": [
+				{
+					"name": "List All Rooms",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/rooms",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "rooms"]
+						}
+					}
+				},
+				{
+					"name": "Check Room Availability",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/rooms/available?check_in=2026-09-01&check_out=2026-09-05",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "rooms", "available"],
+							"query": [
+								{
+									"key": "check_in",
+									"value": "2026-09-01"
+								},
+								{
+									"key": "check_out",
+									"value": "2026-09-05"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Room Status (Housekeeping)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"available\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/rooms/1/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "rooms", "1", "status"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Bookings & Operations",
+			"item": [
+				{
+					"name": "Create Reservation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"guest_id\": 1,\n  \"room_id\": 1,\n  \"check_in_date\": \"2026-09-01\",\n  \"check_out_date\": \"2026-09-04\",\n  \"special_requests\": \"Quiet room on high floor\",\n  \"initial_payment\": {\n    \"amount\": 120.00,\n    \"payment_method\": \"credit_card\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/bookings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "bookings"]
+						}
+					}
+				},
+				{
+					"name": "Check-In Guest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/bookings/1/check-in",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "bookings", "1", "check-in"]
+						}
+					}
+				},
+				{
+					"name": "Check-Out Guest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/bookings/1/check-out",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "bookings", "1", "check-out"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "Get Revenue Report (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/revenue?from=2026-08-01&to=2026-08-31",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "reports", "revenue"],
+							"query": [
+								{
+									"key": "from",
+									"value": "2026-08-01"
+								},
+								{
+									"key": "to",
+									"value": "2026-08-31"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Occupancy Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/occupancy",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "reports", "occupancy"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "jwtToken",
+			"value": ""
+		}
+	]
+}
