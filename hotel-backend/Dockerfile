@@ -4,13 +4,13 @@
 # ===================================================
 
 # ----------------- Base / Dev Stage -----------------
-FROM golang:1.24-alpine AS dev
+FROM golang:1.25-alpine AS dev
 
 WORKDIR /app
 
-# Install git, gcc/musl-dev, netcat (for wait-for-db), and Air for hot reloading
+# Install git, gcc/musl-dev, netcat (for wait-for-db), and Air (v1.61.0 for Go 1.24 compatibility)
 RUN apk add --no-cache git build-base netcat-openbsd curl && \
-    go install github.com/air-verse/air@latest
+    go install github.com/air-verse/air@v1.61.0
 
 # Cache dependencies
 COPY go.mod go.sum ./

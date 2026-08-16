@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -19,8 +21,23 @@ func SecurityHeaders() fiber.Handler {
 		// HTTP Strict Transport Security (HSTS)
 		c.Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload")
 
-		// Content Security Policy
-		c.Set("Content-Security-Policy", "default-src 'self'")
+		// Environment-based Content Security Policy (CSP)
+		env := os.Getenv("ENV")
+		var csp string
+
+		if env == "development" {
+			// Permissive CSP for development (Swagger UI, hot-reload, debugging)
+			csp = "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;"
+		} else {
+			// Strict CSP with Swagger UI & CDN assets compatibility
+			csp = "default-src 'self'; " +
+				"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; " +
+				"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+				"font-src 'self' https://fonts.gstatic.com; " +
+				"img-src 'self' data:; " +
+				"connect-src 'self';"
+		}
+		c.Set("Content-Security-Policy", csp)
 
 		// Referrer Policy
 		c.Set("Referrer-Policy", "strict-origin-when-cross-origin")

@@ -55,3 +55,8 @@ hotel_dev.db
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Swagger Documentation (Tracked)
+!docs/
+!docs/*
+

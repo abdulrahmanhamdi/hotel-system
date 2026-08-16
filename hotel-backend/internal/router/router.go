@@ -2,6 +2,7 @@ package router
 
 import (
 	"hotel-backend/config"
+	_ "hotel-backend/docs"
 	"hotel-backend/internal/handler"
 	"hotel-backend/internal/middleware"
 	"hotel-backend/internal/models"
@@ -10,6 +11,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/swagger"
 )
 
 type RouterDependencies struct {
@@ -44,13 +46,22 @@ func SetupRouter(app *fiber.App, deps *RouterDependencies) {
 		AllowCredentials: true,
 	}))
 
-	// Root Health Check
+	// Health Check / Root
 	app.Get("/", func(c *fiber.Ctx) error {
 		return response.Success(c, fiber.StatusOK, "Hotel Management API is active and secure", fiber.Map{
 			"version": "1.0.0",
 			"status":  "operational",
 		})
 	})
+
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return response.Success(c, fiber.StatusOK, "healthy", fiber.Map{
+			"status": "up",
+		})
+	})
+
+	// Swagger UI Route
+	app.Get("/swagger/*", swagger.HandlerDefault)
 
 	api := app.Group("/api/v1")
 

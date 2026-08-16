@@ -13,6 +13,25 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// @title Hotel Management System API
+// @version 1.0
+// @description This is the API documentation for the Hotel Management System.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.email support@hotel-system.com
+
+// @license.name MIT
+// @license.url https://opensource.org/licenses/MIT
+
+// @host localhost:8080
+// @BasePath /api/v1
+// @schemes http
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Enter your JWT token as: "Bearer <token>"
 func main() {
 	// 1. Load Configuration
 	cfg := config.LoadConfig()
