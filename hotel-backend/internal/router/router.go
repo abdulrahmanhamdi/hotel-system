@@ -9,7 +9,6 @@ import (
 	"hotel-backend/pkg/response"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
 )
@@ -35,16 +34,7 @@ func SetupRouter(app *fiber.App, deps *RouterDependencies) {
 	app.Use(middleware.AuditLogger())
 
 	// 4. CORS Whitelisting
-	allowedOrigins := "http://localhost:3000, http://localhost:8080, http://127.0.0.1:3000"
-	if deps.Config.Env == "production" {
-		allowedOrigins = "https://hotel.example.com, https://admin.hotel.example.com"
-	}
-	app.Use(cors.New(cors.Config{
-		AllowOrigins:     allowedOrigins,
-		AllowMethods:     "GET,POST,PUT,DELETE,PATCH,OPTIONS",
-		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
-		AllowCredentials: true,
-	}))
+	app.Use(middleware.SetupCORS())
 
 	// Health Check / Root
 	app.Get("/", func(c *fiber.Ctx) error {

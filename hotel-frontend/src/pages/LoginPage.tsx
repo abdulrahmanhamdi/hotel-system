@@ -1,16 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaHotel } from "react-icons/fa";
 import apiClient from "../api/client";
+import type { User } from "../types";
 import "../styles/LoginPage.css";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: "admin" | "receptionist" | "housekeeping";
-  is_active: boolean;
-}
 
 interface LoginResponse {
   success: boolean;
@@ -23,12 +17,26 @@ interface LoginResponse {
 }
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("hotel_remember_email");
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
+
+    const token = localStorage.getItem("token") || localStorage.getItem("hotel_token");
+    if (token) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,27 +51,32 @@ function LoginPage() {
       setLoading(true);
 
       const response = await apiClient.post<LoginResponse>("/auth/login", {
-        email,
-        password,
+        email: email.trim(),
+        password: password,
       });
 
-      
-      const { token, user } = response.data.data;
+      if (response.data && response.data.success && response.data.data) {
+        const { token, user } = response.data.data;
 
-      localStorage.setItem("hotel_token", token);
-      localStorage.setItem("hotel_user", JSON.stringify(user));
+        localStorage.setItem("token", token);
+        localStorage.setItem("hotel_token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("hotel_user", JSON.stringify(user));
 
-      if (rememberMe) {
-        localStorage.setItem("hotel_remember_email", email);
+        if (rememberMe) {
+          localStorage.setItem("hotel_remember_email", email.trim());
+        } else {
+          localStorage.removeItem("hotel_remember_email");
+        }
+
+        navigate("/dashboard", { replace: true });
       } else {
-        localStorage.removeItem("hotel_remember_email");
+        setError(response.data.message || "Login failed");
       }
-
-      window.location.href = "/dashboard";
-    } catch (error: any) {
+    } catch (err: any) {
       const message =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
+        err.response?.data?.message ||
+        err.response?.data?.error ||
         "Login failed. Please check your credentials.";
 
       setError(message);
@@ -123,7 +136,7 @@ function LoginPage() {
             <span>Enter your staff credentials to continue.</span>
           </div>
 
-          {error && <div className="login-error">{error}</div>}
+          {error && <div className="login-error" role="alert">{error}</div>}
 
           <div className="form-group">
             <label htmlFor="email">Email address</label>
@@ -135,6 +148,7 @@ function LoginPage() {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               autoComplete="email"
+              required
             />
           </div>
 
@@ -149,6 +163,7 @@ function LoginPage() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 autoComplete="current-password"
+                required
               />
 
               <button
