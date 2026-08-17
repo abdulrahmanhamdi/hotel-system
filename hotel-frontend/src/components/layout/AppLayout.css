@@ -1,0 +1,27 @@
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-bg, #f8fafc);
+}
+
+.app-main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Prevents overflow issues in flex children */
+}
+
+.app-main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .app-main-content {
+    padding: 1.25rem 1rem;
+  }
+}

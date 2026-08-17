@@ -1,36 +1,46 @@
 import axios from "axios";
+import type { ApiResponse } from "../types";
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://192.168.1.41:8080/api/v1",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api/v1",
   timeout: Number(import.meta.env.VITE_API_TIMEOUT) || 30000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Add request interceptor for JWT token
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token") || localStorage.getItem("hotel_token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// Request Interceptor: Attach JWT Token
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-// Add response interceptor for error handling
+// Response Interceptor: Handle HTTP Errors and 401 Unauthorized
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
-      localStorage.removeItem("hotel_token");
       localStorage.removeItem("user");
-      localStorage.removeItem("hotel_user");
       if (window.location.pathname !== "/login") {
         window.location.href = "/login";
       }
     }
-    return Promise.reject(error);
+
+    const apiError = error.response?.data as ApiResponse | undefined;
+    const errorMessage =
+      apiError?.error ||
+      apiError?.message ||
+      error.message ||
+      "An unexpected error occurred. Please try again.";
+
+    return Promise.reject(new Error(errorMessage));
   }
 );
 

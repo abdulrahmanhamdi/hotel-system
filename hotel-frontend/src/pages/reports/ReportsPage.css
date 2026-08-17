@@ -1,0 +1,338 @@
+.reports-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.reports-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.reports-tab-nav {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.reports-tab-nav .tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #475569);
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.reports-tab-nav .tab-btn:hover {
+  color: var(--color-text-primary, #0f172a);
+}
+
+.reports-tab-nav .tab-btn.active {
+  color: var(--primary-navy, #0a192f);
+  border-bottom-color: var(--primary-gold, #d4af37);
+  font-weight: 700;
+}
+
+.reports-error-banner {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+}
+
+.reports-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+}
+
+.reports-tab-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Revenue Date Filter */
+.revenue-filter-bar {
+  background-color: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: var(--primary-navy, #0a192f);
+  font-size: 0.95rem;
+}
+
+.filter-inputs-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.date-field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary, #475569);
+}
+
+.report-date-input {
+  height: 38px;
+  padding: 0 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border, #e2e8f0);
+  background-color: #ffffff;
+  color: var(--color-text-primary, #0f172a);
+  font-size: 0.85rem;
+}
+
+.btn-clear-date {
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg, #f8fafc);
+  color: var(--color-text-secondary, #475569);
+  font-size: 0.825rem;
+  font-weight: 600;
+  border: 1px solid var(--color-border, #e2e8f0);
+}
+
+.btn-clear-date:hover {
+  color: var(--color-text-primary, #0f172a);
+}
+
+/* Reports Metrics Grid */
+.reports-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.report-stat-card {
+  background-color: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.report-stat-card.highlight {
+  background: linear-gradient(135deg, var(--primary-navy, #0a192f), var(--primary-navy-light, #112240));
+  color: #ffffff;
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.report-stat-card.highlight .stat-label {
+  color: var(--primary-gold, #d4af37);
+}
+
+.report-stat-card.highlight .stat-num {
+  color: #ffffff;
+}
+
+.report-stat-card.highlight .stat-sub {
+  color: #94a3b8;
+}
+
+.stat-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.stat-icon-box.total-rev {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--primary-gold, #d4af37);
+}
+
+.stat-icon-box.stays {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.stat-icon-box.bookings {
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+}
+
+.stat-icon-box.cancelled {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}
+
+.stat-icon-box.occupied-stat {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #475569);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-num {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-text-primary, #0f172a);
+  line-height: 1.2;
+}
+
+.stat-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #94a3b8);
+  margin-top: 0.15rem;
+}
+
+/* Payment Breakdown Card */
+.payment-breakdown-card,
+.occupancy-breakdown-card {
+  background-color: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.breakdown-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary, #0f172a);
+}
+
+.breakdown-header p {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary, #475569);
+}
+
+.breakdown-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.tender-card {
+  background-color: var(--color-bg, #f8fafc);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tender-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.tender-icon.card {
+  background-color: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+}
+
+.tender-icon.cash {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.tender-icon.transfer {
+  background-color: rgba(168, 85, 247, 0.12);
+  color: #9333ea;
+}
+
+.tender-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.tender-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #475569);
+}
+
+.tender-amount {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-text-primary, #0f172a);
+}
+
+.tender-percent {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #94a3b8);
+}
+
+/* Occupancy Table */
+.occupancy-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.occupancy-table th {
+  background-color: var(--color-bg, #f8fafc);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  color: var(--color-text-secondary, #475569);
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.occupancy-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--color-border-light, #f1f5f9);
+}
+
+.status-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
