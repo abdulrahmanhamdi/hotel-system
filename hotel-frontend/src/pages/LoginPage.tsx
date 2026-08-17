@@ -47,6 +47,7 @@ function LoginPage() {
         password,
       });
 
+      
       const { token, user } = response.data.data;
 
       localStorage.setItem("hotel_token", token);
